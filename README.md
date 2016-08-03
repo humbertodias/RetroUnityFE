@@ -1,5 +1,6 @@
 # RetroUnity
-RetroUnity is a frontend for the libretro API built in Unity.
+
+RetroUnity is a frontend for the libretro API built in Unity 5.
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
