@@ -567,6 +567,8 @@ public class LibretroWrapper : MonoBehaviour {
 	dllHandler = AndroidDLLHandler.Instance;
 #elif  UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 	dllHandler = OSXDLLHandler.Instance;
+#elif  UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+	dllHandler = LinuxDLLHandler.Instance;
 #endif
             if (dllHandler == null) return;
             dllHandler.LoadCore(dllName);

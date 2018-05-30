@@ -5,9 +5,9 @@ using System;
 
 namespace Utility {
     /// <summary>
-    /// OSX specific implementation for handling DLL loading.
+    /// Linux specific implementation for handling DLL loading.
     /// </summary>
-    public sealed class OSXDLLHandler : IDLLHandler {
+    public sealed class LinuxDLLHandler : IDLLHandler {
 
 		public static IntPtr LoadLibrary (string fileName)
 		{
@@ -26,38 +26,38 @@ namespace Utility {
 
 		const int RTLD_NOW = 2;
 
-		[DllImport ("libdl.dylib")]
+		[DllImport("libdl.so")]
 		private static extern IntPtr dlopen (String fileName, int flags);
 
-		[DllImport ("libdl.dylib")]
+		[DllImport("libdl.so")]
 		private static extern IntPtr dlsym (IntPtr handle, String symbol);
 
-		[DllImport ("libdl.dylib")]
+		[DllImport("libdl.so")]
 		private static extern int dlclose (IntPtr handle);
 
-		[DllImport ("libdl.dylib")]
+		[DllImport("libdl.so")]
 		private static extern IntPtr dlerror ();
 
 		private static IntPtr _dllPointer = IntPtr.Zero;
 
-        private static readonly OSXDLLHandler instance = new OSXDLLHandler();
+        private static readonly LinuxDLLHandler instance = new LinuxDLLHandler();
 
         /// <summary>
         /// Prevent 'new' keyword.
         /// </summary>
-        private OSXDLLHandler() {
+        private LinuxDLLHandler() {
         }
 
         /// <summary>
         /// Gets the current instance (singleton).
         /// </summary>
-        public static OSXDLLHandler Instance {
+        public static LinuxDLLHandler Instance {
             get {
-				#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX || UNITY_WEBGL
-				                return instance;
+				#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX || UNITY_WEBGL
+						return instance;
 				#else
-				                Debug.LogError("This DLL handler is only compatible with OSX.");
-				                return null;
+						Debug.LogError("This DLL handler is only compatible with Linux.");
+						        return null;
 				#endif
             }
         }

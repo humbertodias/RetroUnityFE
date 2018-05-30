@@ -3,16 +3,48 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-//    private const string CoreName = "snes9x_libretro.dll";
-	private const string CoreName = "snes9x_next_libretro.dylib";
-    private const string RomName = "Chrono Trigger (USA).sfc";
     private LibretroWrapper.Wrapper wrapper;
 
     public Renderer Display;
 
+	// Assets/StreamingAssets
+	public string getCoreName(){
+		string CoreName = "snes9x_next_libretro.dylib";
+
+		switch (Application.platform) {
+		case RuntimePlatform.LinuxEditor:
+			CoreName = "snes9x_libretro.so";
+			break;
+		case RuntimePlatform.OSXEditor:
+			CoreName = "snes9x_next_libretro.dylib";
+			break;
+		case RuntimePlatform.WindowsEditor:
+			CoreName = "snes9x_next_libretro.dll";
+			break;
+		case RuntimePlatform.Android:
+			CoreName = "";
+			break;
+		default:
+			Debug.LogError ("Unsupported platform: " + Application.platform);
+			break;
+		}
+
+		CoreName = Application.streamingAssetsPath + "/" + CoreName;
+		Debug.Log ("CoreName:" + CoreName);
+		return CoreName;
+	}
+
+	// Assets/StreamingAssets
+	public string getRomName(){
+		string RomName = "Chrono Trigger (USA).sfc";
+		RomName = Application.streamingAssetsPath + "/" + RomName;
+		Debug.Log ("RomName:" + RomName);
+		return RomName;
+	}
+
     private void Start() {
         Application.targetFrameRate = 60;
-        LoadRom(Application.streamingAssetsPath + "/" + RomName);
+		LoadRom( getRomName() );
     }
 
     private void Update() {
@@ -40,7 +72,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LoadRom(string path) {
-#if !UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_WEBGL
+		#if !UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_WEBGL
         // Doesn't work on Android because you can't do File.Exists in StreamingAssets folder.
         // Should figure out a different way to perform check later.
         // If the file doesn't exist the application gets stuck in a loop.
@@ -51,7 +83,7 @@ public class GameManager : MonoBehaviour {
 #endif
         Display.material.color = Color.white;
 
-        wrapper = new LibretroWrapper.Wrapper(Application.streamingAssetsPath + "/" + CoreName);
+		wrapper = new LibretroWrapper.Wrapper( getCoreName() );
 
         wrapper.Init();
         wrapper.LoadGame(path);
