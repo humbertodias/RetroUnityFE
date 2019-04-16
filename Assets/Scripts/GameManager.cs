@@ -1,57 +1,68 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
-
+public class GameManager : MonoBehaviour
+{
     private LibretroWrapper.Wrapper wrapper;
 
     public Renderer Display;
 
-	// Assets/StreamingAssets
-	public string getCoreName(){
-		string CoreName = "snes9x_next_libretro.dylib";
+    // Assets/StreamingAssets
+    public string getCoreName()
+    {
+        string CoreName = "snes9x_next_libretro.dylib";
 
-		switch (Application.platform) {
-		case RuntimePlatform.LinuxEditor:
-			CoreName = "snes9x_libretro.so";
-			break;
-		case RuntimePlatform.OSXEditor:
-			CoreName = "snes9x_next_libretro.dylib";
-			break;
-		case RuntimePlatform.WindowsEditor:
-			CoreName = "snes9x_next_libretro.dll";
-			break;
-		case RuntimePlatform.Android:
-			CoreName = "";
-			break;
-		default:
-			Debug.LogError ("Unsupported platform: " + Application.platform);
-			break;
-		}
+        switch (Application.platform)
+        {
+            case RuntimePlatform.LinuxEditor:
+            case RuntimePlatform.LinuxPlayer:
+                CoreName = "snes9x_libretro.so";
+                break;
+            case RuntimePlatform.OSXEditor:
+            case RuntimePlatform.OSXPlayer:
+                CoreName = "snes9x_next_libretro.dylib";
+                break;
+            case RuntimePlatform.WindowsEditor:
+            case RuntimePlatform.WindowsPlayer:
+                CoreName = "snes9x_next_libretro.dll";
+                break;
+            case RuntimePlatform.Android:
+                CoreName = "";
+                break;
+            default:
+                Debug.LogError("Unsupported platform: " + Application.platform);
+                break;
+        }
 
-		CoreName = Application.streamingAssetsPath + "/" + CoreName;
-		Debug.Log ("CoreName:" + CoreName);
-		return CoreName;
-	}
-
-	// Assets/StreamingAssets
-	public string getRomName(){
-		string RomName = "Chrono Trigger (USA).sfc";
-		RomName = Application.streamingAssetsPath + "/" + RomName;
-		Debug.Log ("RomName:" + RomName);
-		return RomName;
-	}
-
-    private void Start() {
-        Application.targetFrameRate = 60;
-		LoadRom( getRomName() );
+        CoreName = Application.streamingAssetsPath + "/" + CoreName;
+        Debug.Log("CoreName:" + CoreName);
+        return CoreName;
     }
 
-    private void Update() {
-        if (wrapper != null) {
+    // Assets/StreamingAssets
+    public string getRomName()
+    {
+        string RomName = "Chrono Trigger (USA).sfc";
+        RomName = Application.streamingAssetsPath + "/" + RomName;
+        Debug.Log("RomName:" + RomName);
+        return RomName;
+    }
+
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+        LoadRom(getRomName());
+    }
+
+    private void Update()
+    {
+        if (wrapper != null)
+        {
             wrapper.Update();
         }
-        if (LibretroWrapper.tex != null) {
+
+        if (LibretroWrapper.tex != null)
+        {
             Display.material.mainTexture = LibretroWrapper.tex;
         }
 
@@ -68,22 +79,23 @@ public class GameManager : MonoBehaviour {
         //if (Input.GetButton("X")) Debug.Log("X");
         //if (Input.GetButton("L")) Debug.Log("L");
         //if (Input.GetButton("R")) Debug.Log("R");
-
     }
 
-    public void LoadRom(string path) {
-		#if !UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_WEBGL
+    public void LoadRom(string path)
+    {
+#if !UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_WEBGL
         // Doesn't work on Android because you can't do File.Exists in StreamingAssets folder.
         // Should figure out a different way to perform check later.
         // If the file doesn't exist the application gets stuck in a loop.
-        if (!File.Exists(path)) {
+        if (!File.Exists(path))
+        {
             Debug.LogError(path + " not found.");
             return;
         }
 #endif
         Display.material.color = Color.white;
 
-		wrapper = new LibretroWrapper.Wrapper( getCoreName() );
+        wrapper = new LibretroWrapper.Wrapper(getCoreName());
 
         wrapper.Init();
         wrapper.LoadGame(path);

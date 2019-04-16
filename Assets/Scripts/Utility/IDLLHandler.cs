@@ -1,9 +1,10 @@
-﻿namespace Utility {
+﻿namespace Utility
+{
     /// <summary>
     /// Interface for loading DLL's and their functions.
     /// </summary>
-    interface IDLLHandler {
-
+    interface IDLLHandler
+    {
         /// <summary>
         /// What core to load.
         /// </summary>

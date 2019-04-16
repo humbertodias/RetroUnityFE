@@ -1,6 +1,6 @@
 # RetroUnity
 
-RetroUnity is a frontend for the libretro API built in Unity 2018+.
+RetroUnity is a frontend for the libretro API built in Unity 2019.1.0f2+.
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 

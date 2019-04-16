@@ -4,7 +4,8 @@ using UnityEngine;
 // by Francis R. Griffiths-Keam - www.runningdimensions.com
 
 [AddComponentMenu("Camera/Smooth Mouse Look ")]
-public class SmoothMouseLook : MonoBehaviour {
+public class SmoothMouseLook : MonoBehaviour
+{
     Vector2 _mouseAbsolute;
     Vector2 _smoothMouse;
 
@@ -19,7 +20,8 @@ public class SmoothMouseLook : MonoBehaviour {
     // Yaw rotation will affect this object instead of the camera if set.
     public GameObject characterBody;
 
-    void Start() {
+    void Start()
+    {
         // Set target direction to the camera's initial orientation.
         targetDirection = transform.localRotation.eulerAngles;
 
@@ -27,9 +29,10 @@ public class SmoothMouseLook : MonoBehaviour {
         if (characterBody) targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
     }
 
-    void Update() {
+    void Update()
+    {
         // Ensure the cursor is always locked when set
-		Screen.lockCursor = lockCursor;
+        Screen.lockCursor = lockCursor;
 
         // Allow the script to clamp based on a desired target value.
         var targetOrientation = Quaternion.Euler(targetDirection);
@@ -62,12 +65,14 @@ public class SmoothMouseLook : MonoBehaviour {
         transform.localRotation *= targetOrientation;
 
         // If there's a character body that acts as a parent to the camera
-        if (characterBody) {
+        if (characterBody)
+        {
             var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, characterBody.transform.up);
             characterBody.transform.localRotation = yRotation;
             characterBody.transform.localRotation *= targetCharacterOrientation;
         }
-        else {
+        else
+        {
             var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, transform.InverseTransformDirection(Vector3.up));
             transform.localRotation *= yRotation;
         }

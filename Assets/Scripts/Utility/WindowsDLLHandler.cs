@@ -2,12 +2,13 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Utility {
+namespace Utility
+{
     /// <summary>
     /// Windows specific implementation for handling DLL loading. Requires kernel32.dll.
     /// </summary>
-    public sealed class WindowsDLLHandler : IDLLHandler {
-
+    public sealed class WindowsDLLHandler : IDLLHandler
+    {
         [DllImport("kernel32.dll")]
         private static extern IntPtr LoadLibrary(string dllToLoad);
 
@@ -24,14 +25,17 @@ namespace Utility {
         /// <summary>
         /// Prevent 'new' keyword.
         /// </summary>
-        private WindowsDLLHandler() {
+        private WindowsDLLHandler()
+        {
         }
 
         /// <summary>
         /// Gets the current instance (singleton).
         /// </summary>
-        public static WindowsDLLHandler Instance {
-            get {
+        public static WindowsDLLHandler Instance
+        {
+            get
+            {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
                 return instance;
 #else
@@ -41,10 +45,12 @@ namespace Utility {
             }
         }
 
-        public bool LoadCore(string dllPath) {
+        public bool LoadCore(string dllPath)
+        {
             _dllPointer = LoadLibrary(dllPath);
 
-            if (_dllPointer == IntPtr.Zero) {
+            if (_dllPointer == IntPtr.Zero)
+            {
                 Debug.LogError("Error loading DLL.");
                 return false;
             }
@@ -52,15 +58,18 @@ namespace Utility {
             return true;
         }
 
-        public T GetMethod<T>(string functionName) where T : class {
-            if (_dllPointer == IntPtr.Zero) {
+        public T GetMethod<T>(string functionName) where T : class
+        {
+            if (_dllPointer == IntPtr.Zero)
+            {
                 Debug.LogError("DLL not found, cannot get method '" + functionName + "'");
                 return default(T);
             }
 
             IntPtr pAddressOfFunctionToCall = GetProcAddress(_dllPointer, functionName);
 
-            if (pAddressOfFunctionToCall == IntPtr.Zero) {
+            if (pAddressOfFunctionToCall == IntPtr.Zero)
+            {
                 return default(T);
             }
 

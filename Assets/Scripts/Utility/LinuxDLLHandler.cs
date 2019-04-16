@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using UnityEngine;
 using System;
 
@@ -54,10 +53,10 @@ namespace Utility {
         public static LinuxDLLHandler Instance {
             get {
 				#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX || UNITY_WEBGL
-						return instance;
+					return instance;
 				#else
-						Debug.LogError("This DLL handler is only compatible with Linux.");
-						        return null;
+					Debug.LogError("This DLL handler is only compatible with Linux.");
+			        return null;
 				#endif
             }
         }
