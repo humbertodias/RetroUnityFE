@@ -6,52 +6,13 @@ public class GameManager : MonoBehaviour
     private LibretroWrapper.Wrapper wrapper;
 
     public Renderer Display;
-
-    // Assets/StreamingAssets
-    public string getCoreName()
-    {
-        string CoreName = "snes9x_next_libretro.dylib";
-
-        switch (Application.platform)
-        {
-            case RuntimePlatform.LinuxEditor:
-            case RuntimePlatform.LinuxPlayer:
-                CoreName = "snes9x_libretro.so";
-                break;
-            case RuntimePlatform.OSXEditor:
-            case RuntimePlatform.OSXPlayer:
-                CoreName = "snes9x_next_libretro.dylib";
-                break;
-            case RuntimePlatform.WindowsEditor:
-            case RuntimePlatform.WindowsPlayer:
-                CoreName = "snes9x_next_libretro.dll";
-                break;
-            case RuntimePlatform.Android:
-                CoreName = "";
-                break;
-            default:
-                Debug.LogError("Unsupported platform: " + Application.platform);
-                break;
-        }
-
-        CoreName = Application.streamingAssetsPath + "/" + CoreName;
-        Debug.Log("CoreName:" + CoreName);
-        return CoreName;
-    }
-
-    // Assets/StreamingAssets
-    public string getRomName()
-    {
-        string RomName = "Chrono Trigger (USA).sfc";
-        RomName = Application.streamingAssetsPath + "/" + RomName;
-        Debug.Log("RomName:" + RomName);
-        return RomName;
-    }
+    public string CoreName = "snes9x_libretro.so";
+    public string RomName = "Chrono Trigger (USA).sfc";
 
     private void Start()
     {
         Application.targetFrameRate = 60;
-        LoadRom(getRomName());
+        LoadRom(Application.streamingAssetsPath + "/" + RomName);
     }
 
     private void Update()
@@ -95,7 +56,7 @@ public class GameManager : MonoBehaviour
 #endif
         Display.material.color = Color.white;
 
-        wrapper = new LibretroWrapper.Wrapper(getCoreName());
+        wrapper = new LibretroWrapper.Wrapper(Application.streamingAssetsPath + "/" + CoreName);
 
         wrapper.Init();
         wrapper.LoadGame(path);

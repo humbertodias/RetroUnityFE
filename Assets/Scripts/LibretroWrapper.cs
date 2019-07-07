@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Utility;
 
+
 public class LibretroWrapper : MonoBehaviour
 {
     private static Speaker _leftSpeaker;
@@ -265,7 +266,7 @@ public class LibretroWrapper : MonoBehaviour
                             };
                             var color = new Color(((packed >> 10) & 0x001F) / 31.0f, ((packed >> 5) & 0x001F) / 31.0f,
                                 (packed & 0x001F) / 31.0f, 1.0f);
-                            Tex.SetPixel((int) i, (int) j, color);
+                            tex.SetPixel((int)i, (int)j, color);
                             //pixels = (IntPtr)((int)pixels + size);
                         }
 
@@ -278,41 +279,35 @@ public class LibretroWrapper : MonoBehaviour
                     break;
                 case PixelFormat.RetroPixelFormatXRGB8888:
 
-                    LibretroWrapper.w = Convert.ToInt32(width);
-                    LibretroWrapper.h = Convert.ToInt32(height);
-                    if (tex == null)
-                    {
-                        tex = new Texture2D(LibretroWrapper.w, LibretroWrapper.h, TextureFormat.RGB565, false);
-                    }
+                        LibretroWrapper.w = Convert.ToInt32(width);
+                        LibretroWrapper.h = Convert.ToInt32(height);
+                        if (tex == null) {
+                            tex = new Texture2D(LibretroWrapper.w, LibretroWrapper.h, TextureFormat.RGB565, false);
+                        }
+                        LibretroWrapper.p = Convert.ToInt32(pitch);
 
-                    LibretroWrapper.p = Convert.ToInt32(pitch);
+                        //size = Marshal.SizeOf(typeof(int));
+                        for (i = 0; i < height; i++) {
+                            for (j = 0; j < width; j++) {
+                                int packed = Marshal.ReadInt32(pixels);
+                                _frameBuffer[i * width + j] = new Pixel {
+                                    Alpha = 1,
+                                    Red = ((packed >> 16) & 0x00FF) / 255.0f,
+                                    Green = ((packed >> 8) & 0x00FF) / 255.0f,
+                                    Blue = (packed & 0x00FF) / 255.0f
+                                };
+                                var color = new Color(((packed >> 16) & 0x00FF) / 255.0f, ((packed >> 8) & 0x00FF) / 255.0f, (packed & 0x00FF) / 255.0f, 1.0f);
+                                tex.SetPixel((int)i, (int)j, color);
+                                //pixels = (IntPtr)((int)pixels + size);
+                            }
+                            //pixels = (IntPtr)((int)rowStart + pitch);
+                            //rowStart = pixels;
 
-                    //size = Marshal.SizeOf(typeof(int));
-                    for (i = 0; i < height; i++)
-                    {
-                        for (j = 0; j < width; j++)
-                        {
-                            int packed = Marshal.ReadInt32(pixels);
-                            _frameBuffer[i * width + j] = new Pixel
-                            {
-                                Alpha = 1,
-                                Red = ((packed >> 16) & 0x00FF) / 255.0f,
-                                Green = ((packed >> 8) & 0x00FF) / 255.0f,
-                                Blue = (packed & 0x00FF) / 255.0f
-                            };
-                            var color = new Color(((packed >> 16) & 0x00FF) / 255.0f, ((packed >> 8) & 0x00FF) / 255.0f,
-                                (packed & 0x00FF) / 255.0f, 1.0f);
-                            Tex.SetPixel((int) i, (int) j, color);
-                            //pixels = (IntPtr)((int)pixels + size);
                         }
 
-                        //pixels = (IntPtr)((int)rowStart + pitch);
-                        //rowStart = pixels;
-                    }
-
-                    tex.filterMode = FilterMode.Trilinear;
-                    tex.Apply();
-                    break;
+                        tex.filterMode = FilterMode.Trilinear;
+                        tex.Apply();
+                        break;
 
                 case PixelFormat.RetroPixelFormatRGB565:
 

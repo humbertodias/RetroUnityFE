@@ -1,6 +1,6 @@
 # RetroUnity
 
-RetroUnity is a frontend for the libretro API built in Unity 2019.1.0f2+.
+RetroUnity is a frontend for the libretro API built in Unity 2019.3.0a8+.
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
@@ -15,6 +15,8 @@ The following assets were used in this project:
 
 
 Tested on Linux
+
+![](libretro.png)
 
 ```
 sudo apt install libretro-snes9x libretro-snes9x-next
