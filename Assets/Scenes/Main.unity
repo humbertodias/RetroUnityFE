@@ -692,7 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Display: {fileID: 635089074}
   CoreName: snes9x_libretro.so
-  RomName: Chrono Trigger (USA).sfc
+  RomName: Classic Kong Complete (U) V2-01.smc
 --- !u!1001 &1178825821
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,5 +22,12 @@ Shared library and roms inside [Assets/StreamingAssets](Assets/StreamingAssets) 
 
 ```
 sudo apt install libretro-snes9x libretro-snes9x-next
-retroarch --libretro /usr/lib/libretro/snes9x_libretro.so Chrono\ Trigger\ \(USA\).sfc 
+retroarch --libretro /usr/lib/libretro/snes9x_libretro.so Classic\ Kong\ Complete\ \(U\) \V2-01.smc 
 ```
+
+
+Ref
+
+* [snes-sdk](https://github.com/optixx/snes-sdk)
+
+* [classickong](https://github.com/nathancassano/classickong)
