@@ -1,6 +1,6 @@
-# RetroUnity
+# UnityRetroFE
 
-RetroUnity is a frontend for the libretro API built in Unity 2019.3.0a8+.
+UnityRetroFE is a frontend for the libretro API built in Unity 2020.4+
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
@@ -31,3 +31,7 @@ Ref
 * [snes-sdk](https://github.com/optixx/snes-sdk)
 
 * [classickong](https://github.com/nathancassano/classickong)
+
+* [flatscreen](https://assetstore.unity.com/packages/3d/props/electronics/flatscreen-tv-9721)
+
+* [furniture-set](https://assetstore.unity.com/packages/3d/props/furniture/free-furniture-set-26678)
