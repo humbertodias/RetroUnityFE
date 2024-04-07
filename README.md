@@ -1,6 +1,6 @@
 # RetroUnityFE
 
-RetroUnityFE is a frontend for the libretro API built in Unity 2020.4+
+RetroUnityFE is a frontend for the libretro API built in Unity 2022.3+
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
