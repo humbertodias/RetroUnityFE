@@ -84,7 +84,7 @@ namespace RetroUnity
         static void DownloadCores(string romName)
         {
             var arch = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x86_64";
-            Debug.Log($"Current Archtecture {arch}");
+            Debug.Log($"Current Architecture {arch}");
             
             // http://buildbot.libretro.com/nightly
             var cores = new Dictionary<BuildTarget, string>()
@@ -94,7 +94,7 @@ namespace RetroUnity
                 { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{romName}_libretro.so.zip" } ,
                 { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{romName}_libretro.dylib.zip"}, 
                 // Mobile
-                { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/{romName}_libretro_android.so.zip" }, 
+                { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/{romName}_libretro_android.so.zip" }, 
                 { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{romName}_libretro_ios.dylib.zip" } 
                 
             };
