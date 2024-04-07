@@ -82,4 +82,4 @@ Assets/Plugins/Editor/JetBrains*
 .vs/
 
 
-
+.DS_Store
