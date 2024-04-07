@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -80,16 +81,18 @@ namespace RetroUnity
             return assets;
         }
 
-        
         static void DownloadCores(string romName)
         {
+            var arch = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x86_64";
+            Debug.Log($"Current Archtecture {arch}");
+            
             // http://buildbot.libretro.com/nightly
             var cores = new Dictionary<BuildTarget, string>()
             {
                 // Standalone
-                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/x86_64/latest/{romName}_libretro.dll.zip"  } ,
-                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/x86_64/latest/{romName}_libretro.so.zip" } ,
-                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/x86_64/latest/{romName}_libretro.dylib.zip"}, 
+                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{romName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{romName}_libretro.so.zip" } ,
+                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{romName}_libretro.dylib.zip"}, 
                 // Mobile
                 { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/{romName}_libretro_android.so.zip" }, 
                 { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{romName}_libretro_ios.dylib.zip" } 
