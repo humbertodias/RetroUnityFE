@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using UnityEngine;
 using static SK.Libretro.Wrapper;
 using static SK.Libretro.Utilities.StringUtils;
 
@@ -100,6 +101,8 @@ namespace SK.Libretro
         private readonly DllModule _dll = new DllModuleMacOS();
 #elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         private readonly DllModule _dll = new DllModuleLinux();
+#elif UNITY_ANDROID
+        private readonly DllModule _dll = new DllModuleAndroid();
 #else
 #endif
 
@@ -130,6 +133,8 @@ namespace SK.Libretro
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         extension = ".dylib";
 #elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        extension = ".so";
+#elif UNITY_ANDROID
         extension = ".so";
 #else
 #endif
