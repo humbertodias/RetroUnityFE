@@ -24,7 +24,14 @@ Shared library and roms inside [Assets/StreamingAssets](Assets/StreamingAssets) 
 sudo apt install libretro-snes9x libretro-snes9x-next
 retroarch --libretro /usr/lib/libretro/snes9x_libretro.so Classic\ Kong\ Complete\ \(U\) \V2-01.smc 
 ```
+Tested [cores](http://buildbot.libretro.com/nightly/apple/osx/arm64/latest/)
 
+* snes9x
+* blastem
+* nestopia
+* mgba
+* mame2003_plus
+* vecx
 
 Ref
 
