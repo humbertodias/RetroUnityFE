@@ -1,6 +1,6 @@
 # RetroUnityFE
 
-RetroUnityFE is a frontend for the libretro API built in Unity 2022.3+
+RetroUnityFE is a frontend for the libretro API built in Unity 6+
 
 [webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
@@ -20,7 +20,7 @@ Tested on Linux
 
 Shared library and roms inside [Assets/StreamingAssets](Assets/StreamingAssets) folder
 
-```
+```shell
 sudo apt install libretro-snes9x libretro-snes9x-next
 retroarch --libretro /usr/lib/libretro/snes9x_libretro.so Classic\ Kong\ Complete\ \(U\) \V2-01.smc 
 ```
