@@ -59,12 +59,12 @@ public class LibretroWrapperManager : MonoBehaviour
         }
     }
 
-    public void ActivateGraphics()
+    private void ActivateGraphics()
     {
         Wrapper?.ActivateGraphics(new UnityGraphicsProcessor());
     }
 
-    public void ActivateAudio()
+    private void ActivateAudio()
     {
         //  var unityAudioProcessorComponent = gameObject.AddComponent<UnityAudioProcessorComponent>();
         UnityAudioProcessorComponent unityAudio = GetComponent<UnityAudioProcessorComponent>();
@@ -83,9 +83,9 @@ public class LibretroWrapperManager : MonoBehaviour
         }
     }
 
-    public void ActivateInput()
+    private void ActivateInput()
     {
-        Wrapper?.ActivateInput(FindObjectOfType<PlayerInputManager>().GetComponent<IInputProcessor>());
+        Wrapper?.ActivateInput(FindFirstObjectByType<PlayerInputManager>().GetComponent<IInputProcessor>());
     }
 
 
