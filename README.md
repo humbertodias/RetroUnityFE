@@ -32,6 +32,7 @@ Tested [cores](http://buildbot.libretro.com/nightly/apple/osx/arm64/latest/)
 * mgba
 * mame2003_plus
 * vecx
+* yabause
 
 Ref
 
