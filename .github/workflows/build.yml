@@ -1,0 +1,59 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build - ${{ matrix.targetPlatform }} - Unity ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    environment: Unity build
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2022.3.12f1
+        targetPlatform:
+          - WebGL
+    steps:
+
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+      
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v3
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+      
+      # Output
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build
+          path: build
+
+      # Pages
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/${{ matrix.targetPlatform }}/WebGL # The folder the action should deploy.

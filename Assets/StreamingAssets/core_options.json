@@ -117,6 +117,17 @@
                 "vecx_shift_x;0;-0.03|-0.025|-0.02|-0.015|-0.01|-0.005|0|0.005|0.01|0.015|0.02|0.025|0.03",
                 "vecx_shift_y;0;-0.035|-0.03|-0.025|-0.02|-0.015|-0.01|-0.005|0|0.005|0.01|0.015|0.02|0.025|0.03|0.035|0.04|0.045|0.05|0.055|0.06|0.065|0.07|0.075|0.08|0.085|0.09|0.095|0.1"
             ]
+        },
+        {
+            "CoreName": "Yabause",
+            "Options": [
+                "yabause_addon_cartridge;none;none|1M_ram|4M_ram",
+                "yabause_force_hle_bios;disabled;disabled|enabled",
+                "yabause_frameskip;disabled;disabled|enabled",
+                "yabause_multitap_port1;disabled;disabled|enabled",
+                "yabause_multitap_port2;disabled;disabled|enabled",
+                "yabause_numthreads;4;1|2|4|8|16|32"
+            ]
         }
     ]
 }

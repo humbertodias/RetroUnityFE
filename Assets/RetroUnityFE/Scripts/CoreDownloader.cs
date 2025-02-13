@@ -30,9 +30,9 @@ namespace RetroUnity
         [MenuItem("Libretro/Download cores")]
         static void DownloadCores()
         {
-            var coreNames = new List<string>()
+            var coreNames = new List<string>
             {
-                "snes9x","blastem", "nestopia", "mgba", "mame2003_plus", "vecx"
+                "snes9x","blastem", "nestopia", "mgba", "mame2003_plus", "vecx", "yabause"
             };
             foreach (var coreName in coreNames)
             {
@@ -54,7 +54,7 @@ namespace RetroUnity
         
         List<string> unzipCore(string zipPath, string extractDirectory)
         {
-            List<string> assets = new List<string>();
+            var assets = new List<string>();
             try
             {
                 using (var archive = ZipFile.OpenRead(zipPath))
@@ -81,7 +81,7 @@ namespace RetroUnity
             return assets;
         }
 
-        static void DownloadCores(string romName)
+        static void DownloadCores(string coreName)
         {
             var arch = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x86_64";
             Debug.Log($"Current Architecture {arch}");
@@ -90,12 +90,12 @@ namespace RetroUnity
             var cores = new Dictionary<BuildTarget, string>()
             {
                 // Standalone
-                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{romName}_libretro.dll.zip"  } ,
-                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{romName}_libretro.so.zip" } ,
-                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{romName}_libretro.dylib.zip"}, 
+                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{coreName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{coreName}_libretro.so.zip" } ,
+                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{coreName}_libretro.dylib.zip"}, 
                 // Mobile
-                { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/{romName}_libretro_android.so.zip" }, 
-                { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{romName}_libretro_ios.dylib.zip" } 
+                { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/{coreName}_libretro_android.so.zip" }, 
+                { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{coreName}_libretro_ios.dylib.zip" } 
                 
             };
             
@@ -162,7 +162,7 @@ namespace RetroUnity
 
         static void SetNativePluginLibrary(BuildTarget buildTarget, string cpu, string relativePath)
         {
-            // native library, avaiable only for mobile
+            // native library, available only for mobile
             var nativePlugin = AssetImporter.GetAtPath(relativePath) as PluginImporter;
             // Exclude
             nativePlugin.SetExcludeEditorFromAnyPlatform(true);

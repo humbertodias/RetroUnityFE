@@ -1,37 +1,78 @@
 # RetroUnityFE
 
-RetroUnityFE is a frontend for the libretro API built in Unity 2022.3+
+RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
 
-[webm](https://gfycat.com/PresentUnconsciousAmberpenshell)
+![RetroUnityFE](libretro.png)
 
-## Documentation
-See [wiki](https://github.com/Scorr/RetroUnity/wiki).
+## 📽️ Demo
 
-## External assets
-The following assets were used in this project:
-* [Flatscreen TV](https://www.assetstore.unity3d.com/en/#!/content/9721) by Rutger Klunder
-* [Free Furniture Set](https://www.assetstore.unity3d.com/en/#!/content/26678) by Lef
-* [LibRetro for Linux](http://dimitry-i.blogspot.com/2013/01/mononet-how-to-dynamically-load-native.html)
+[Watch WebM Video](https://gfycat.com/PresentUnconsciousAmberpenshell)
 
+## 📖 Documentation
 
-Tested on Linux
+For detailed setup and usage instructions, see the [Wiki](https://github.com/Scorr/RetroUnity/wiki).
 
-![](libretro.png)
+## 🎮 Tested Platforms
 
-Shared library and roms inside [Assets/StreamingAssets](Assets/StreamingAssets) folder
+* [x] Linux
+* [x] MacOS
+* [x] Windows
+* [x] Android
+* [ ] iOS
 
-```
+## 📋 Features
+
+* [ ] Savestate
+* [ ] Rewind 
+
+## 📂 External Assets
+
+The following assets are used in this project:
+
+- **[Flatscreen TV](https://assetstore.unity.com/packages/3d/props/electronics/flatscreen-tv-9721)** by Rutger Klunder
+- **[Free Furniture Set](https://assetstore.unity.com/packages/3d/props/furniture/free-furniture-set-26678)** by Lef
+- **[LibRetro for Linux](http://dimitry-i.blogspot.com/2013/01/mononet-how-to-dynamically-load-native.html)**
+
+## 🔧 Setup Instructions
+
+### 📁 Shared Library & ROMs
+
+Place shared libraries and ROMs inside the `Assets/StreamingAssets/` folder.
+
+### 🛠️ Install Dependencies (Linux)
+
+```sh
 sudo apt install libretro-snes9x libretro-snes9x-next
-retroarch --libretro /usr/lib/libretro/snes9x_libretro.so Classic\ Kong\ Complete\ \(U\) \V2-01.smc 
 ```
 
+### 🎮 Running a Game
 
-Ref
+```sh
+retroarch --libretro /usr/lib/libretro/snes9x_libretro.so "Classic Kong Complete (U) V2-01.smc"
+```
 
-* [snes-sdk](https://github.com/optixx/snes-sdk)
+## 🕹️ Tested Libretro Cores
 
-* [classickong](https://github.com/nathancassano/classickong)
+The following cores have been tested and confirmed to work:
 
-* [flatscreen](https://assetstore.unity.com/packages/3d/props/electronics/flatscreen-tv-9721)
+- **snes9x** (Super Nintendo)
+- **blastem** (Sega Genesis)
+- **nestopia** (Nintendo Entertainment System)
+- **mgba** (Game Boy Advance)
+- **mame2003_plus** (Arcade)
+- **vecx** (Vectrex)
+- **yabause** (Sega Saturn)
 
-* [furniture-set](https://assetstore.unity.com/packages/3d/props/furniture/free-furniture-set-26678)
+[Download latest cores](http://buildbot.libretro.com/nightly/apple/osx/arm64/latest/)
+
+## 📚 References
+
+- [SNES SDK](https://github.com/optixx/snes-sdk)
+- [Classic Kong](https://github.com/nathancassano/classickong)
+- [Flatscreen TV Asset](https://assetstore.unity.com/packages/3d/props/electronics/flatscreen-tv-9721)
+- [Furniture Set Asset](https://assetstore.unity.com/packages/3d/props/furniture/free-furniture-set-26678)
+
+---
+
+🎮 **RetroUnityFE** is an open-source project that aims to bring a seamless frontend experience for **libretro** cores in Unity!
+
