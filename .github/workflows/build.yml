@@ -44,7 +44,7 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          #continue-on-error: true
+          continue-on-error: true
 
       # Output
       - uses: actions/upload-artifact@v4
