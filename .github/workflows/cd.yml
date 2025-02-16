@@ -17,7 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         unityVersion:
-          #- 2022.3.12f1
           - 6000.0.23f1
         targetPlatform:
           #- WebGL
@@ -48,9 +47,7 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          continue-on-error: true
 
-      # Output
       - uses: actions/upload-artifact@v4
         with:
           name: Build-${{ matrix.targetPlatform }}
