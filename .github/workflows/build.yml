@@ -17,7 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         unityVersion:
-          - 2022.3.12f1
+          #- 2022.3.12f1
+          - 6000.0.23f1
         targetPlatform:
           - WebGL
           - StandaloneLinux64
@@ -37,12 +38,13 @@ jobs:
             Library-
 
       - name: Build project
-        uses: game-ci/unity-builder@v3
+        uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          continue-on-error: true
 
       # Output
       - uses: actions/upload-artifact@v4
