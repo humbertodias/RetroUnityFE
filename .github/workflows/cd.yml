@@ -22,6 +22,8 @@ jobs:
         targetPlatform:
           #- WebGL
           - StandaloneLinux64
+          - StandaloneWindows
+          - StandaloneOSX
     steps:
 
       - name: Checkout repository
