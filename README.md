@@ -1,3 +1,5 @@
+[![Continuous Delivery](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml/badge.svg)](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml)
+
 # RetroUnityFE
 
 RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
