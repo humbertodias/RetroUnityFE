@@ -19,7 +19,8 @@ jobs:
         unityVersion:
           - 2022.3.12f1
         targetPlatform:
-          - WebGL
+#          - WebGL
+           - Linux
     steps:
 
       # Checkout
