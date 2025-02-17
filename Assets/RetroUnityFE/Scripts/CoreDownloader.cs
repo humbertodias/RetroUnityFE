@@ -90,13 +90,12 @@ namespace RetroUnity
             var cores = new Dictionary<BuildTarget, string>()
             {
                 // Standalone
-                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{coreName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneWindows64, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{coreName}_libretro.dll.zip"  } ,
                 { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{coreName}_libretro.so.zip" } ,
                 { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{coreName}_libretro.dylib.zip"}, 
                 // Mobile
                 { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/{coreName}_libretro_android.so.zip" }, 
                 { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{coreName}_libretro_ios.dylib.zip" } 
-                
             };
             
             var coreDownloader = new CoreDownloader();
@@ -138,6 +137,10 @@ namespace RetroUnity
                     return Application.platform == RuntimePlatform.LinuxEditor;
                 case BuildTarget.StandaloneOSX:
                     return Application.platform == RuntimePlatform.OSXEditor;
+                case BuildTarget.Android:
+                    return Application.platform == RuntimePlatform.Android;
+                case BuildTarget.iOS:
+                    return Application.platform == RuntimePlatform.IPhonePlayer;
                 default: return false;
             }
         }
