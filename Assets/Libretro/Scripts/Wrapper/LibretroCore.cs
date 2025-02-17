@@ -194,7 +194,7 @@ namespace SK.Libretro
             string extension;
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         extension = ".dll";
-#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX || UNITY_IOS
             extension = ".dylib";
 #elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         extension = ".so";
