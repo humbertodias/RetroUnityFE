@@ -21,7 +21,7 @@ jobs:
         targetPlatform:
           #- WebGL
           - StandaloneLinux64
-          - StandaloneWindows
+          - StandaloneWindows64
           - StandaloneOSX
           - Android
           - iOS
