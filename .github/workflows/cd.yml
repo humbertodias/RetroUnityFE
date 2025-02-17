@@ -23,6 +23,7 @@ jobs:
           - StandaloneLinux64
           - StandaloneWindows
           - StandaloneOSX
+          - Android
     steps:
 
       - name: Checkout repository
