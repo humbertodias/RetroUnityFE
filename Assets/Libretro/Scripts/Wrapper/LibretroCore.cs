@@ -103,6 +103,8 @@ namespace SK.Libretro
         private readonly DllModule _dll = new DllModuleLinux();
 #elif UNITY_ANDROID
         private readonly DllModule _dll = new DllModuleAndroid();
+#elif UNITY_IOS
+        private readonly DllModule _dll = new DllModuleIOS();
 #else
 #endif
 
