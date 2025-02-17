@@ -121,7 +121,7 @@ namespace SK.Libretro
         private retro_perf_start_t _perfStartCallback;
         private retro_perf_stop_t _perfStopCallback;
 
-        public unsafe bool Start(Wrapper wrapper, string coreName)
+        public unsafe bool Start(Wrapper wrapper, string coreDirectory, string coreName )
         {
             bool result = false;
 
@@ -129,7 +129,7 @@ namespace SK.Libretro
             {
                 string extension;
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                extension = ".dll";
+        extension = ".dll";
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         extension = ".dylib";
 #elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
@@ -139,7 +139,8 @@ namespace SK.Libretro
 #else
 #endif
 
-        string corePath = FileSystem.GetAbsolutePath($"{CoresDirectory}/{coreName}_libretro{extension}");
+                // string corePath = FileSystem.GetAbsolutePath($"{CoresDirectory}/{coreName}_libretro{extension}");
+                string corePath = FileSystem.GetAbsolutePath($"{coreDirectory}/{coreName}_libretro{extension}");
                 if (FileSystem.FileExists(corePath))
                 {
                     string tempDirectory = FileSystem.GetAbsolutePath(TempDirectory);

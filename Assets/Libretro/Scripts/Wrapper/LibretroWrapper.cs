@@ -47,13 +47,13 @@ namespace SK.Libretro
 
         private CoreOptionsList _coreOptionsList;
 
-        public bool StartGame(string coreName, string gameDirectory, string gameName)
+        public bool StartGame(string coreDirectory, string coreName, string gameDirectory, string gameName)
         {
             bool result = false;
 
             LoadCoreOptionsFile();
 
-            if (Core.Start(this, coreName))
+            if (Core.Start(this, coreDirectory, coreName))
             {
                 if (Game.Start(Core, gameDirectory, gameName))
                 {

@@ -53,6 +53,11 @@ sudo apt install libretro-snes9x libretro-snes9x-next
 retroarch --libretro /usr/lib/libretro/snes9x_libretro.so "Classic Kong Complete (U) V2-01.smc"
 ```
 
+```sh
+RetroUnityFE --libretro /usr/lib/libretro/snes9x_libretro.so "Classic Kong Complete (U) V2-01.smc"
+```
+
+
 ## 🕹️ Tested Libretro Cores
 
 The following cores have been tested and confirmed to work:

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using SK.Libretro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,9 +7,10 @@ using UnityEngine.Serialization;
 
 public class LibretroWrapperManager : MonoBehaviour
 {
-    public string core = "snes9x";
-    public string gameName = "Classic Kong Complete (U)";
-    public string gameDirectory = "Assets/StreamingAssets/libretro~/roms";
+    [SerializeField] public string coreName = "snes9x";
+    [SerializeField] public string coreDirectory = "Assets/StreamingAssets/libretro~/cores";
+    [SerializeField] public string gameName = "Classic Kong Complete (U)"; 
+    [SerializeField] public string gameDirectory = "Assets/StreamingAssets/libretro~/roms";
 
     [Range(0.5f, 2f)] [SerializeField] private float _timeScale = 1.0f;
 
@@ -31,10 +33,41 @@ public class LibretroWrapperManager : MonoBehaviour
         activateGraphics =
             true; // When Update() is used we need to activate graphics there so unityGraphics.TextureUpdated is at least once true
 
+    void ParseCommandLineArgs(ref string coreDirectory, ref string coreName, ref string gameDirectory, ref string gameName)
+    {
+        string[] args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
+        {
+            if ((args[i] == "-L" || args[i] == "--libretro") && i + 2 < args.Length)
+            {
+                string corePath = args[i + 1];
+                string gamePath = args[i + 2];
+
+                if (File.Exists(corePath) && File.Exists(gamePath))
+                {
+                    coreDirectory = Path.GetDirectoryName(corePath);
+                    coreName = Path.GetFileName(corePath).Split("_libretro")[0];
+                    
+                    gameDirectory = Path.GetDirectoryName(gamePath);
+                    gameName = Path.GetFileNameWithoutExtension(gamePath);
+                    
+                    Debug.Log("Parsed Core {coreName} | Core Directory {coreDirectory} | Game Directory {gameDirectory} | Game Name {gameName}");
+                }
+                else
+                {
+                    Debug.LogError($"File does not exist: Core Path {corePath} or Game Path {gamePath}");
+                }
+
+                i += 2;
+            }
+        }
+    }
+    
     void Start()
     {
+        ParseCommandLineArgs(ref coreDirectory, ref coreName, ref gameDirectory, ref gameName);
         Wrapper = new Wrapper();
-        if (Wrapper.StartGame(core, gameDirectory, gameName))
+        if (Wrapper.StartGame(coreDirectory, coreName, gameDirectory, gameName))
         {
             ActivateGraphics();
             ActivateAudio();
@@ -58,6 +91,7 @@ public class LibretroWrapperManager : MonoBehaviour
             Wrapper = null;
         }
     }
+
 
     private void ActivateGraphics()
     {
