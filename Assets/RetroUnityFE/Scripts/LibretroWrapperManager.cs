@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using SK.Libretro;
 using UnityEngine;
@@ -11,6 +12,10 @@ public class LibretroWrapperManager : MonoBehaviour
     [SerializeField] public string coreDirectory = "Assets/StreamingAssets/libretro~/cores";
     [SerializeField] public string gameName = "Classic Kong Complete (U)"; 
     [SerializeField] public string gameDirectory = "Assets/StreamingAssets/libretro~/roms";
+    [SerializeField] string RootDirectory = Application.platform == RuntimePlatform.Android ? 
+        Application.persistentDataPath : 
+        Application.streamingAssetsPath;
+
 
     [Range(0.5f, 2f)] [SerializeField] private float _timeScale = 1.0f;
 
@@ -33,9 +38,9 @@ public class LibretroWrapperManager : MonoBehaviour
         activateGraphics =
             true; // When Update() is used we need to activate graphics there so unityGraphics.TextureUpdated is at least once true
 
-    void ParseCommandLineArgs(ref string coreDirectory, ref string coreName, ref string gameDirectory, ref string gameName)
+    bool ParseCommandLineArgs(ref string coreDirectory, ref string coreName, ref string gameDirectory, ref string gameName)
     {
-        string[] args = System.Environment.GetCommandLineArgs();
+        string[] args = Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length; i++)
         {
             if ((args[i] == "-L" || args[i] == "--libretro") && i + 2 < args.Length)
@@ -52,6 +57,8 @@ public class LibretroWrapperManager : MonoBehaviour
                     gameName = Path.GetFileNameWithoutExtension(gamePath);
                     
                     Debug.Log("Parsed Core {coreName} | Core Directory {coreDirectory} | Game Directory {gameDirectory} | Game Name {gameName}");
+                    
+                    return true;
                 }
                 else
                 {
@@ -61,12 +68,87 @@ public class LibretroWrapperManager : MonoBehaviour
                 i += 2;
             }
         }
+        return false;
     }
     
-    void Start()
+    bool ParseConfigFile(string configFilePath, ref string coreDirectory, ref string coreName, ref string gameDirectory, ref string gameName)
     {
-        ParseCommandLineArgs(ref coreDirectory, ref coreName, ref gameDirectory, ref gameName);
-        Wrapper = new Wrapper();
+        if (!File.Exists(configFilePath))
+        {
+            Debug.LogError($"Config file not found: {configFilePath}");
+            return false;
+        }
+
+        try
+        {
+            string[] lines = File.ReadAllLines(configFilePath);
+            string corePath = null;
+            string gamePath = null;
+
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split('=');
+                if (parts.Length != 2) continue;
+
+                string key = parts[0].Trim();
+                string value = parts[1].Trim();
+
+                if (key.Equals("corePath", StringComparison.OrdinalIgnoreCase))
+                {
+                    corePath = value;
+                }
+                else if (key.Equals("gamePath", StringComparison.OrdinalIgnoreCase))
+                {
+                    gamePath = value;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(corePath) && !string.IsNullOrEmpty(gamePath) &&
+                File.Exists(corePath) && File.Exists(gamePath))
+            {
+                coreDirectory = Path.GetDirectoryName(corePath);
+                coreName = Path.GetFileName(corePath).Split("_libretro")[0];
+
+                gameDirectory = Path.GetDirectoryName(gamePath);
+                gameName = Path.GetFileNameWithoutExtension(gamePath);
+
+                Debug.Log($"Parsed Core {coreName} | Core Directory {coreDirectory} | Game Directory {gameDirectory} | Game Name {gameName}");
+                return true;
+            }
+            else
+            {
+                Debug.LogError($"Invalid or missing paths in config file: Core Path {corePath}, Game Path {gamePath}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error reading config file: {ex.Message}");
+        }
+        return false;
+    }
+
+    
+    void Awake()
+    {
+        
+        string rootDirectory = Application.platform == RuntimePlatform.Android ? Application.persistentDataPath : AppDomain.CurrentDomain.BaseDirectory;
+        Debug.Log($"rootDirectory:{rootDirectory}");
+        if (!ParseCommandLineArgs(ref coreDirectory, ref coreName, ref gameDirectory, ref gameName))
+        {
+            string configFilePath = Path.Combine(rootDirectory, "RetroUnityFE.ini");
+            Debug.Log($"configFilePath:{configFilePath}");
+            if (!File.Exists(configFilePath))
+            {
+                using (StreamWriter writer = new StreamWriter(configFilePath))
+                {
+                    writer.WriteLine($"corePath={coreDirectory}/{coreName}");
+                    writer.WriteLine($"gamePath={gameDirectory}/{gameName}");
+                }
+                
+            }
+            ParseConfigFile(configFilePath, ref coreDirectory, ref coreName, ref gameDirectory, ref gameName);
+        }
+        Wrapper = new Wrapper(rootDirectory);
         if (Wrapper.StartGame(coreDirectory, coreName, gameDirectory, gameName))
         {
             ActivateGraphics();

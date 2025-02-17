@@ -42,9 +42,11 @@ namespace SK.Libretro
         private IntPtr _internalData;
 
         private string _extractedPath = null;
+        private Wrapper _wrapper;
 
-        public bool Start(LibretroCore core, string gameDirectory, string gameName)
+        public bool Start(Wrapper wrapper, LibretroCore core, string gameDirectory, string gameName)
         {
+            _wrapper = wrapper;
             bool result = false;
 
             _core = core;
@@ -62,8 +64,8 @@ namespace SK.Libretro
                     if (File.Exists(archivePath))
                     {
                         Guid gameGuid = Guid.NewGuid();
-                        System.IO.Compression.ZipFile.ExtractToDirectory(archivePath, $"{ExtractDirectory}/{gameName}_{gameGuid}");
-                        gamePath = GetGamePath($"{ExtractDirectory}/{gameName}_{gameGuid}", gameName);
+                        System.IO.Compression.ZipFile.ExtractToDirectory(archivePath, $"{_wrapper.ExtractDirectory}/{gameName}_{gameGuid}");
+                        gamePath = GetGamePath($"{_wrapper.ExtractDirectory}/{gameName}_{gameGuid}", gameName);
                         _extractedPath = gamePath;
                     }
                 }

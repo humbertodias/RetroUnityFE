@@ -22,19 +22,18 @@
 
 using SK.Libretro.Utilities;
 using System.Linq;
-using UnityEngine;
 
 namespace SK.Libretro
 {
     public partial class Wrapper
     {
-        public static readonly string CoreOptionsFile  = $"{Application.streamingAssetsPath}/core_options.json";
-        public static readonly string WrapperDirectory = $"{Application.streamingAssetsPath}/libretro~";
-        public static readonly string CoresDirectory   = $"{WrapperDirectory}/cores";
-        public static readonly string SystemDirectory  = $"{WrapperDirectory}/system";
-        public static readonly string SavesDirectory   = $"{WrapperDirectory}/saves";
-        public static readonly string TempDirectory    = $"{WrapperDirectory}/temp";
-        public static readonly string ExtractDirectory = $"{TempDirectory}/extracted";
+        public readonly string CoreOptionsFile;
+        public readonly string WrapperDirectory;
+        public readonly string CoresDirectory;
+        public readonly string SystemDirectory;
+        public readonly string SavesDirectory;
+        public readonly string TempDirectory;
+        public readonly string ExtractDirectory;
 
         public bool OptionCropOverscan = true;
 
@@ -45,7 +44,22 @@ namespace SK.Libretro
         public LibretroCore Core { get; private set; } = new LibretroCore();
         public LibretroGame Game { get; private set; } = new LibretroGame();
 
+        private string _rootDirectory;
+
         private CoreOptionsList _coreOptionsList;
+
+
+        public Wrapper(string rootDirectory)
+        {
+            _rootDirectory = rootDirectory;
+            CoreOptionsFile = $"{_rootDirectory}/core_options.json";
+            WrapperDirectory = $"{_rootDirectory}/libretro~";
+            CoresDirectory   = $"{WrapperDirectory}/cores";
+            SystemDirectory  = $"{WrapperDirectory}/system";
+            SavesDirectory   = $"{WrapperDirectory}/saves";
+            TempDirectory    = $"{WrapperDirectory}/temp";
+            ExtractDirectory = $"{TempDirectory}/extracted";
+        }
 
         public bool StartGame(string coreDirectory, string coreName, string gameDirectory, string gameName)
         {
@@ -55,7 +69,7 @@ namespace SK.Libretro
 
             if (Core.Start(this, coreDirectory, coreName))
             {
-                if (Game.Start(Core, gameDirectory, gameName))
+                if (Game.Start(this, Core, gameDirectory, gameName))
                 {
                     result = true;
                 }

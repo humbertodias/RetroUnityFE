@@ -120,9 +120,12 @@ namespace SK.Libretro
         private retro_perf_register_t _perfRegisterCallback;
         private retro_perf_start_t _perfStartCallback;
         private retro_perf_stop_t _perfStopCallback;
+        private Wrapper _wrapper;
 
         public unsafe bool Start(Wrapper wrapper, string coreDirectory, string coreName )
         {
+            _wrapper = wrapper;
+            
             bool result = false;
 
             try
@@ -143,7 +146,7 @@ namespace SK.Libretro
                 string corePath = FileSystem.GetAbsolutePath($"{coreDirectory}/{coreName}_libretro{extension}");
                 if (FileSystem.FileExists(corePath))
                 {
-                    string tempDirectory = FileSystem.GetAbsolutePath(TempDirectory);
+                    string tempDirectory = FileSystem.GetAbsolutePath(_wrapper.TempDirectory);
                     if (!Directory.Exists(tempDirectory))
                     {
                         _ = Directory.CreateDirectory(tempDirectory);
@@ -208,7 +211,7 @@ namespace SK.Libretro
 
                 _dll.Free();
 
-                string dllPath = FileSystem.GetAbsolutePath($"{TempDirectory}/{_dll.Name}");
+                string dllPath = FileSystem.GetAbsolutePath($"{_wrapper.TempDirectory}/{_dll.Name}");
                 if (File.Exists(dllPath))
                 {
                     File.Delete(dllPath);
