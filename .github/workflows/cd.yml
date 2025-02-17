@@ -51,7 +51,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Build-${{ matrix.targetPlatform }}
+          name: RetroUnityFE-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
       - name: Deploy 🚀
