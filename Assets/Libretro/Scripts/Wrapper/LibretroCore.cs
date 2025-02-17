@@ -130,20 +130,10 @@ namespace SK.Libretro
 
             try
             {
-                string extension;
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        extension = ".dll";
-#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        extension = ".dylib";
-#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        extension = ".so";
-#elif UNITY_ANDROID
-        extension = ".so";
-#else
-#endif
+                var extension = CoreFileNameExtension();
 
                 // string corePath = FileSystem.GetAbsolutePath($"{CoresDirectory}/{coreName}_libretro{extension}");
-                string corePath = FileSystem.GetAbsolutePath($"{coreDirectory}/{coreName}_libretro{extension}");
+                string corePath = CoreFileName(coreDirectory, coreName, extension);
                 if (FileSystem.FileExists(corePath))
                 {
                     string tempDirectory = FileSystem.GetAbsolutePath(_wrapper.TempDirectory);
@@ -197,6 +187,33 @@ namespace SK.Libretro
             }
 
             return result;
+        }
+
+        private static string CoreFileNameExtension()
+        {
+            string extension;
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        extension = ".dll";
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            extension = ".dylib";
+#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        extension = ".so";
+#elif UNITY_ANDROID
+        extension = ".so";
+#else
+#endif
+            return extension;
+        }
+
+        private static string CoreFileName(string coreDirectory, string coreName, string extension)
+        {
+            string platform_prefix = "";
+#if UNITY_ANDROID
+        platform_prefix = "_android";
+#elif UNITY_IOS
+        platform_prefix = "_ios";
+#endif
+            return FileSystem.GetAbsolutePath($"{coreDirectory}/{coreName}_libretro{platform_prefix}{extension}");
         }
 
         public void Stop()
