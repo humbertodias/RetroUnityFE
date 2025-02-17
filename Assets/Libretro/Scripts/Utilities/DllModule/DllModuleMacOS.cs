@@ -13,7 +13,7 @@ namespace SK.Libretro.Utilities
         [DllImport("libc.dylib", EntryPoint = "dlsym")]
         private static extern IntPtr MacOSGetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
-        [DllImport("libdc.dylib", EntryPoint = "dlclose")]
+        [DllImport("libc.dylib", EntryPoint = "dlclose")]
         private static extern bool MacOSFreeLibrary(IntPtr hModule);
 
         public override void Load(string path)
