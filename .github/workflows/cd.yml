@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatch:
     branches:
       - main
 
@@ -56,8 +55,20 @@ jobs:
           name: RetroUnityFE-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
-      - name: Deploy 🚀
+      - name: Deploy Pages 🚀
         if: contains(matrix.targetPlatform, 'WebGL')
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build/WebGL
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: "Release for ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          files: build/${{ matrix.targetPlatform }}/**
