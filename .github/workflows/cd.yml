@@ -51,8 +51,8 @@ jobs:
         
       - name: Compress
         run: |
-          cd build 
-          zip -r "${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip" ${{ matrix.targetPlatform }}
+          cd build
+          zip -r "../${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip" ${{ matrix.targetPlatform }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -64,4 +64,4 @@ jobs:
           body: "Release for ${{ env.TAG_NAME }}"
           draft: false
           prerelease: false
-          files: build/${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip
+          files: ${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip
