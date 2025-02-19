@@ -1,11 +1,8 @@
 name: CD
 
 on:
-  push:
-    tags:
-      - '*'
-    branches:
-      - main
+  release:
+    types: [ created ]
 
 jobs:
   build:
@@ -18,7 +15,6 @@ jobs:
         unityVersion:
           - 6000.0.23f1
         targetPlatform:
-          #- WebGL
           - StandaloneLinux64
           - StandaloneWindows64
           - StandaloneOSX
@@ -50,25 +46,21 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: RetroUnityFE-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-
-      - name: Deploy Pages 🚀
-        if: contains(matrix.targetPlatform, 'WebGL')
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build/WebGL
+      - name: Set TAG_NAME
+        run: echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+        
+      - name: Compress
+        run: |
+          zip -r "${{ matrix.targetPlatform }}-${TAG_NAME}.zip" build/${{ matrix.targetPlatform }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          body: "Release for ${{ github.ref_name }}"
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          body: "Release for ${{ env.TAG_NAME }}"
           draft: false
           prerelease: false
-          files: build/${{ matrix.targetPlatform }}/**
+          files: build/${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip
