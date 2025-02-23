@@ -4,11 +4,16 @@
 
 RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
 
-![RetroUnityFE](libretro.png)
+[RetroUnity-demo.webm](https://github.com/user-attachments/assets/6af507c6-a1e5-4475-b221-fb9dfb2d859a)
 
-## 📽️ Demo
-
-[Watch WebM Video](https://gfycat.com/PresentUnconsciousAmberpenshell)
+| Input        | Action       |
+|:------------:|:------------:|
+| 5            | Insert Coin  |
+| WASD / Setas | Move         |
+| Enter        | Start        |
+| P            | Pause        |
+| Ctrl         | Punch        |
+| Alt          | Jump         |
 
 ## 📖 Documentation
 
@@ -56,7 +61,6 @@ retroarch --libretro /usr/lib/libretro/snes9x_libretro.so "Classic Kong Complete
 ```sh
 RetroUnityFE --libretro /usr/lib/libretro/snes9x_libretro.so "Classic Kong Complete (U) V2-01.smc"
 ```
-
 
 ## 🕹️ Tested Libretro Cores
 
