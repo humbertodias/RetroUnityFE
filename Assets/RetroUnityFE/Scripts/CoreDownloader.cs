@@ -32,7 +32,7 @@ namespace RetroUnity
         {
             var coreNames = new List<string>
             {
-                "snes9x","blastem", "nestopia", "mgba", "mame2003_plus", "vecx", "yabause"
+                "snes9x","blastem", "nestopia", "mgba", "mame2003_plus", "vecx", "yabause", "mame2000"
             };
             foreach (var coreName in coreNames)
             {
