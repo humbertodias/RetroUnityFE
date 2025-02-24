@@ -9,7 +9,7 @@ RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
 | Input        | Action       |
 |:------------:|:------------:|
 | 5            | Insert Coin  |
-| WASD / Setas | Move         |
+| WASD/Arrows  | Move         |
 | Enter        | Start        |
 | P            | Pause        |
 | Ctrl         | Punch        |
