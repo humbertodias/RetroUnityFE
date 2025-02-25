@@ -1,4 +1,5 @@
 [![Continuous Delivery](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml/badge.svg)](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml)
+![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/RetroUnityFE/total)
 
 # RetroUnityFE
 
