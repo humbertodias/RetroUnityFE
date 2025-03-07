@@ -83,16 +83,29 @@ namespace RetroUnity
 
         static void DownloadCores(string coreName)
         {
-            var arch = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x86_64";
+            var archMap = new Dictionary<Architecture, string>
+            {
+                { Architecture.X86, "x86" },
+                { Architecture.X64, "x86_64" },
+                { Architecture.Arm, "arm" },
+                { Architecture.Arm64, "arm64" }
+            };
+
+            var arch = archMap[(Architecture)RuntimeInformation.ProcessArchitecture];
+            
             Debug.Log($"Current Architecture {arch}");
+            
             
             // http://buildbot.libretro.com/nightly
             var cores = new Dictionary<BuildTarget, string>()
             {
                 // Standalone
-                { BuildTarget.StandaloneWindows64, $"http://buildbot.libretro.com/nightly/windows/{arch}/latest/{coreName}_libretro.dll.zip"  } ,
-                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/{arch}/latest/{coreName}_libretro.so.zip" } ,
-                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/{arch}/latest/{coreName}_libretro.dylib.zip"}, 
+                { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/x86/latest/{coreName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneWindows64, $"http://buildbot.libretro.com/nightly/windows/x86_x64/latest/{coreName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneLinux, $"http://buildbot.libretro.com/nightly/linux/x86/latest/{coreName}_libretro.so.zip" } ,
+                { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/x86_64/latest/{coreName}_libretro.so.zip" } ,
+                { BuildTarget.StandaloneOSXIntel, $"http://buildbot.libretro.com/nightly/apple/osx/x86/latest/{coreName}_libretro.dylib.zip"}, 
+                { BuildTarget.StandaloneOSX, $"http://buildbot.libretro.com/nightly/apple/osx/x86_64/latest/{coreName}_libretro.dylib.zip"}, 
                 // Mobile
                 { BuildTarget.Android, $"http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/{coreName}_libretro_android.so.zip" }, 
                 { BuildTarget.iOS, $"http://buildbot.libretro.com/nightly/apple/ios/latest/{coreName}_libretro_ios.dylib.zip" } 
