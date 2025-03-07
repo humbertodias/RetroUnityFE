@@ -15,8 +15,11 @@ jobs:
         unityVersion:
           - 6000.0.23f1
         targetPlatform:
-          - StandaloneLinux64
+          - StandaloneWindows
           - StandaloneWindows64
+          - StandaloneLinux
+          - StandaloneLinux64
+          - StandaloneOSXIntel
           - StandaloneOSX
           - Android
           - iOS
