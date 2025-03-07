@@ -17,9 +17,9 @@ jobs:
         targetPlatform:
           - StandaloneWindows
           - StandaloneWindows64
-          - StandaloneLinux
+#          - StandaloneLinux
           - StandaloneLinux64
-          - StandaloneOSXIntel
+#          - StandaloneOSXIntel
           - StandaloneOSX
           - Android
           - iOS
