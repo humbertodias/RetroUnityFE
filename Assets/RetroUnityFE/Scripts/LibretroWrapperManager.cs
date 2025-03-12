@@ -60,10 +60,8 @@ public class LibretroWrapperManager : MonoBehaviour
                     
                     return true;
                 }
-                else
-                {
-                    Debug.LogError($"File does not exist: Core Path {corePath} or Game Path {gamePath}");
-                }
+
+                Debug.LogError($"File does not exist: Core Path {corePath} or Game Path {gamePath}");
 
                 i += 2;
             }
@@ -127,11 +125,31 @@ public class LibretroWrapperManager : MonoBehaviour
         return false;
     }
 
+    string GetCoreExtension()
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.LinuxEditor:
+            case RuntimePlatform.LinuxPlayer:
+            case RuntimePlatform.LinuxServer:
+            case RuntimePlatform.Android:
+                return ".so";
+            case RuntimePlatform.WindowsEditor:
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsServer:
+                return ".dll";
+            case RuntimePlatform.OSXEditor:
+            case RuntimePlatform.OSXPlayer:
+            case RuntimePlatform.OSXServer:
+                return ".dylib";
+            default: throw new PlatformNotSupportedException();
+        }
+    }
     
     void Awake()
     {
         
-        string rootDirectory = Application.platform == RuntimePlatform.Android ? Application.persistentDataPath : AppDomain.CurrentDomain.BaseDirectory;
+        string rootDirectory = Application.platform == RuntimePlatform.Android ? Application.persistentDataPath : Application.streamingAssetsPath;
         Debug.Log($"rootDirectory:{rootDirectory}");
         if (!ParseCommandLineArgs(ref coreDirectory, ref coreName, ref gameDirectory, ref gameName))
         {
@@ -139,12 +157,17 @@ public class LibretroWrapperManager : MonoBehaviour
             Debug.Log($"configFilePath:{configFilePath}");
             if (!File.Exists(configFilePath))
             {
-                using (StreamWriter writer = new StreamWriter(configFilePath))
+                var coreExtension = GetCoreExtension();
+                var corePath = $"{rootDirectory}/{coreDirectory}/{coreName}_libretro.{coreExtension}";
+                var gamePath = $"{rootDirectory}/{gameDirectory}/{gameName}";
+                if (File.Exists(corePath) && File.Exists(gamePath))
                 {
-                    writer.WriteLine($"corePath={coreDirectory}/{coreName}");
-                    writer.WriteLine($"gamePath={gameDirectory}/{gameName}");
+                    using (StreamWriter writer = new StreamWriter(configFilePath))
+                    {
+                        writer.WriteLine($"corePath={corePath}");
+                        writer.WriteLine($"gamePath={gamePath}");
+                    }
                 }
-                
             }
             ParseConfigFile(configFilePath, ref coreDirectory, ref coreName, ref gameDirectory, ref gameName);
         }
