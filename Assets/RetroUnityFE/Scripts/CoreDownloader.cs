@@ -101,7 +101,7 @@ namespace RetroUnity
             {
                 // Standalone
                 { BuildTarget.StandaloneWindows, $"http://buildbot.libretro.com/nightly/windows/x86/latest/{coreName}_libretro.dll.zip"  } ,
-                { BuildTarget.StandaloneWindows64, $"http://buildbot.libretro.com/nightly/windows/x86_x64/latest/{coreName}_libretro.dll.zip"  } ,
+                { BuildTarget.StandaloneWindows64, $"http://buildbot.libretro.com/nightly/windows/x86_64/latest/{coreName}_libretro.dll.zip"  } ,
                 { BuildTarget.StandaloneLinux, $"http://buildbot.libretro.com/nightly/linux/x86/latest/{coreName}_libretro.so.zip" } ,
                 { BuildTarget.StandaloneLinux64, $"http://buildbot.libretro.com/nightly/linux/x86_64/latest/{coreName}_libretro.so.zip" } ,
                 { BuildTarget.StandaloneOSXIntel, $"http://buildbot.libretro.com/nightly/apple/osx/x86/latest/{coreName}_libretro.dylib.zip"}, 
