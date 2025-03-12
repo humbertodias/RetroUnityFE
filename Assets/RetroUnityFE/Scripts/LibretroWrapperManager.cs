@@ -12,7 +12,7 @@ public class LibretroWrapperManager : MonoBehaviour
     [SerializeField] public string coreDirectory = "Assets/StreamingAssets/libretro~/cores";
     [SerializeField] public string gameName = "Classic Kong Complete (U)"; 
     [SerializeField] public string gameDirectory = "Assets/StreamingAssets/libretro~/roms";
-    [SerializeField] string RootDirectory = Application.platform == RuntimePlatform.Android ? 
+    [SerializeField] string rootDirectory = Application.platform == RuntimePlatform.Android ? 
         Application.persistentDataPath : 
         Application.streamingAssetsPath;
 
@@ -149,7 +149,6 @@ public class LibretroWrapperManager : MonoBehaviour
     void Awake()
     {
         
-        string rootDirectory = Application.platform == RuntimePlatform.Android ? Application.persistentDataPath : Application.streamingAssetsPath;
         Debug.Log($"rootDirectory:{rootDirectory}");
         if (!ParseCommandLineArgs(ref coreDirectory, ref coreName, ref gameDirectory, ref gameName))
         {
