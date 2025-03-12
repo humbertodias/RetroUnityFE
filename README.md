@@ -69,6 +69,7 @@ The following cores have been tested and confirmed to work:
 
 - **snes9x** (Super Nintendo)
 - **blastem** (Sega Genesis)
+- **genesis_plus_gx** (Sega Genesis)
 - **nestopia** (Nintendo Entertainment System)
 - **mgba** (Game Boy Advance)
 - **mame2003_plus** (Arcade)
