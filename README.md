@@ -75,7 +75,7 @@ The following cores have been tested and confirmed to work:
 - **vecx** (Vectrex)
 - **yabause** (Sega Saturn)
 
-[Download latest cores](http://buildbot.libretro.com/nightly/apple/osx/arm64/latest/)
+[Download latest cores](http://buildbot.libretro.com/nightly/) for your operating system and processor
 
 ## 📚 References
 
