@@ -5,12 +5,17 @@ using System.Runtime.InteropServices;
 
 namespace SK.Libretro.Utilities
 {
+    /**
+     * Usually localed at /lib/x86_64-linux-gnu/libdl.so
+     * or
+     * LD_LIBRARY_PATH
+     */
     public sealed class DllModuleLinux : DllModule
     {
-        [DllImport("libdl.so", EntryPoint = "dlopen")]
+        [DllImport("libdl", EntryPoint = "dlopen")]
         private static extern IntPtr LinuxLoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpLibFileName, int flags);
 
-        [DllImport("libdl.so", EntryPoint = "dlsym")]
+        [DllImport("libdl", EntryPoint = "dlsym")]
         private static extern IntPtr LinuxGetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
         [DllImport("libdl.so", EntryPoint = "dlclose")]
