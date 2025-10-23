@@ -18,7 +18,7 @@ RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
 
 ## 📖 Documentation
 
-For detailed setup and usage instructions, see the [Wiki](https://github.com/Scorr/RetroUnity/wiki).
+For detailed setup and usage instructions, see the [Wiki](https://deepwiki.com/humbertodias/RetroUnityFE/).
 
 ## 🎮 Tested Platforms
 
