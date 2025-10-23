@@ -130,6 +130,24 @@
             ]
         },
         {
+            "CoreName": "Pancake",
+            "Options": [
+                "pancake_debug_vram;false;false|true;",
+                "pancake_double_vram;false;false|true;",
+                "pancake_enable_gpu_native;false;false|true;",
+                "pancake_hle_libgpu;false;false|true;",
+                "pancake_hle_libgte;false;false|true;",
+                "pancake_hle_libm;false;false|true;",
+                "pancake_hle_libsnd;false;false|true;",
+                "pancake_hle_libspu;false;false|true;",
+                "pancake_input_multitap;never;never|auto|port0|port1;",
+                "pancake_render;sw;sw|sw_fast|sw_hw|hw_sw|hw;",
+                "pancake_render_always_center;true;true|false;",
+                "pancake_render_keep_prev_on_blank;false;false|true;",
+                "pancake_render_scale;1;1|2|3|4;"
+            ]
+        },
+        {
             "CoreName": "Snes9x",
             "Options": [
                 "snes9x_aspect;4:3;4:3|uncorrected|auto|ntsc|pal",

@@ -1,5 +1,4 @@
 [![Continuous Delivery](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml/badge.svg)](https://github.com/humbertodias/RetroUnityFE/actions/workflows/cd.yml)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/humbertodias/RetroUnityFE)
 ![GitHub all releases](https://img.shields.io/github/downloads/humbertodias/RetroUnityFE/total)
 
 # RetroUnityFE
@@ -19,7 +18,7 @@ RetroUnityFE is a frontend for the **libretro API** built in **Unity 6+**.
 
 ## 📖 Documentation
 
-For detailed setup and usage instructions, see the [Wiki](https://deepwiki.com/humbertodias/RetroUnityFE/).
+For detailed setup and usage instructions, see the [Wiki](https://github.com/Scorr/RetroUnity/wiki).
 
 ## 🎮 Tested Platforms
 
@@ -76,7 +75,6 @@ The following cores have been tested and confirmed to work:
 - **mame2003_plus** (Arcade)
 - **vecx** (Vectrex)
 - **yabause** (Sega Saturn)
-- **bennugd** ([BennuGD](https://github.com/humbertodias/BennuGD_libretro/releases))
 
 [Download latest cores](http://buildbot.libretro.com/nightly/) for your operating system and processor
 

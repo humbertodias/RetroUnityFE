@@ -8,9 +8,9 @@ using UnityEngine.Serialization;
 
 public class LibretroWrapperManager : MonoBehaviour
 {
-    [SerializeField] public string coreName = "snes9x";
+    [SerializeField] public string coreName = "pancake";
     [SerializeField] public string coreDirectory = "Assets/StreamingAssets/libretro~/cores";
-    [SerializeField] public string gameName = "Classic Kong Complete (U)"; 
+    [SerializeField] public string gameName = "MortalKombatTrilogy_SLUS00330_SCEA"; 
     [SerializeField] public string gameDirectory = "Assets/StreamingAssets/libretro~/roms";
     [SerializeField] string rootDirectory = Application.platform == RuntimePlatform.Android ? 
         Application.persistentDataPath : 

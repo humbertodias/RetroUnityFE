@@ -449,9 +449,36 @@ namespace SK.Libretro
                 break;
                 case retro_environment.RETRO_ENVIRONMENT_SET_PROC_ADDRESS_CALLBACK:
                 {
-                    Log.Error("Environment not implemented!", "RETRO_ENVIRONMENT_SET_PROC_ADDRESS_CALLBACK");
-                    return false;
-                }
+                        var iface = (retro_get_proc_address_interface*)data;
+
+                        // Basic sanity
+                        if (iface == null)
+                        {
+                            Log.Error("retro_get_proc_address_interface pointer is null");
+                            return false;
+                        }
+
+                        IntPtr raw = iface->get_proc_address;
+                        Log.Info($"retro_get_proc_address pointer: 0x{raw.ToString("X")}");
+                        if (raw == IntPtr.Zero)
+                        {
+                            Log.Error("get_proc_address is IntPtr.Zero");
+                            return false;
+                        }
+
+                        // Convert native pointer to managed delegate representing retro_get_proc_address
+                        Core.retro_get_proc_address = Marshal.GetDelegateForFunctionPointer<retro_get_proc_address_t>(raw);
+
+                        if (Core.retro_get_proc_address == null)
+                        {
+                            Log.Error("Failed to marshal retro_get_proc_address");
+                            return false;
+                        }
+
+                        // Keep Core.retro_get_proc_address around (field) so it's not GC'd.
+                        Log.Info("retro_get_proc_address assigned successfully");
+                        return true;
+                    }
                 //case retro_environment.RETRO_ENVIRONMENT_SET_SUBSYSTEM_INFO:
                 //{
                 //    //RetroSubsystemInfo* subsytemInfo = (RetroSubsystemInfo*)data;
