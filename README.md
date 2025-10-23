@@ -75,6 +75,7 @@ The following cores have been tested and confirmed to work:
 - **mame2003_plus** (Arcade)
 - **vecx** (Vectrex)
 - **yabause** (Sega Saturn)
+- **bennugd** ([BennuGD](https://github.com/humbertodias/BennuGD_libretro/releases))
 
 [Download latest cores](http://buildbot.libretro.com/nightly/) for your operating system and processor
 
