@@ -2,37 +2,36 @@ name: CD
 
 on:
   release:
-    types: [ created ]
+    types: [created]
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   build:
-    name: ${{ matrix.targetPlatform }}
+    name: Build ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     environment: Unity build
     strategy:
       fail-fast: false
       matrix:
-        # https://game.ci/docs/docker/versions/
         unityVersion:
           - 6000.2.7f2
         targetPlatform:
           - StandaloneWindows
           - StandaloneWindows64
-#          - StandaloneLinux
           - StandaloneLinux64
-#          - StandaloneOSXIntel
           - StandaloneOSX
           - Android
           - iOS
-    steps:
 
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
 
-      - uses: actions/cache@v4
+      - name: Cache Library
+        uses: actions/cache@v4
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -42,26 +41,31 @@ jobs:
 
       - name: Build project
         uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
 
+      # Set TAG_NAME safely: fallback to 'manual' if no tag exists
       - name: Set TAG_NAME
-        run: echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-        
-      - name: Compress
+        run: |
+          if [ -n "${GITHUB_REF_NAME}" ]; then
+            echo "TAG_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          else
+            echo "TAG_NAME=manual-${{ github.run_number }}" >> $GITHUB_ENV
+          fi
+
+      - name: Compress build
         run: |
           cd build
           zip -r "../${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip" ${{ matrix.targetPlatform }}
 
       - name: Create GitHub Release
+        if: startsWith(github.event_name, 'release')  # Only create release on actual release
         uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.TAG_NAME }}
           name: Release ${{ env.TAG_NAME }}
@@ -69,3 +73,5 @@ jobs:
           draft: false
           prerelease: false
           files: ${{ matrix.targetPlatform }}-${{ env.TAG_NAME }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
