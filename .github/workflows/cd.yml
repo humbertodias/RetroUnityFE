@@ -12,8 +12,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # https://game.ci/docs/docker/versions/
         unityVersion:
-          - 6000.0.23f1
+          - 6000.2.7f2
         targetPlatform:
           - StandaloneWindows
           - StandaloneWindows64
