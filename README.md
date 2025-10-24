@@ -29,7 +29,7 @@ For detailed setup and usage instructions, see the [Wiki](https://deepwiki.com/h
 * [x] Android
 * [ ] iOS
 
-## 📋 Features
+## 📋 TODO
 
 * [ ] Savestate
 * [ ] Rewind 
