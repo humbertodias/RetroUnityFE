@@ -83,3 +83,5 @@ Assets/Plugins/Editor/JetBrains*
 
 
 .DS_Store
+
+mono_crash.*
