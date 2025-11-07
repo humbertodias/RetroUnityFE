@@ -7,61 +7,54 @@ namespace SK.Libretro.Utilities
 {
     public sealed class DllModuleMacOS : DllModule
     {
+        private const int RTLD_NOW = 2;
+
         [DllImport("libc.dylib", EntryPoint = "dlopen")]
-        private static extern IntPtr MacOSLoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpLibFileName, int flags);
+        private static extern IntPtr MacOSLoadLibrary([MarshalAs(UnmanagedType.LPStr)] string path, int flags);
 
         [DllImport("libc.dylib", EntryPoint = "dlsym")]
-        private static extern IntPtr MacOSGetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
+        private static extern IntPtr MacOSGetProcAddress(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string symbol);
 
         [DllImport("libc.dylib", EntryPoint = "dlclose")]
-        private static extern bool MacOSFreeLibrary(IntPtr hModule);
+        private static extern int MacOSFreeLibrary(IntPtr handle);
 
         public override void Load(string path)
         {
-            if (!string.IsNullOrEmpty(path))
-            {
-                IntPtr hModule = MacOSLoadLibrary(path, 2); // 2 is for RTLD_NOW
-                if (hModule != IntPtr.Zero)
-                {
-                    Name = Path.GetFileName(path);
-                    _nativeHandle = hModule;
-                }
-                else
-                {
-                    throw new Exception($"Failed to load library at path '{path}'");
-                }
-            }
-            else
-            {
+            if (string.IsNullOrEmpty(path))
                 throw new Exception("Library path is null or empty.");
-            }
+
+            if (!File.Exists(path))
+                throw new Exception($"Library file not found at path '{path}'");
+
+            IntPtr handle = MacOSLoadLibrary(path, RTLD_NOW);
+            if (handle == IntPtr.Zero)
+                throw new Exception($"Failed to load library at path '{path}'");
+
+            _nativeHandle = handle;
+            Name = Path.GetFileName(path);
         }
 
         public override T GetFunction<T>(string functionName)
         {
-            if (_nativeHandle != IntPtr.Zero)
-            {
-                IntPtr procAddress = MacOSGetProcAddress(_nativeHandle, functionName);
-                if (procAddress != IntPtr.Zero)
-                {
-                    return Marshal.GetDelegateForFunctionPointer<T>(procAddress);
-                }
-                else
-                {
-                    throw new Exception($"Function '{functionName}' not found in library '{Name}'.");
-                }
-            }
-            else
-            {
+            if (_nativeHandle == IntPtr.Zero)
                 throw new Exception($"Library not loaded, cannot get function '{functionName}'");
-            }
+
+            IntPtr procAddress = MacOSGetProcAddress(_nativeHandle, functionName);
+            if (procAddress == IntPtr.Zero)
+                throw new Exception($"Function '{functionName}' not found in library '{Name}'");
+
+            return Marshal.GetDelegateForFunctionPointer<T>(procAddress);
         }
 
         public override void Free()
         {
             if (_nativeHandle != IntPtr.Zero)
             {
-                _ = MacOSFreeLibrary(_nativeHandle);
+                int result = MacOSFreeLibrary(_nativeHandle);
+                if (result != 0)
+                    UnityEngine.Debug.LogWarning($"Failed to free library '{Name}'");
+                
+                _nativeHandle = IntPtr.Zero;
             }
         }
     }

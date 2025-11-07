@@ -238,9 +238,11 @@ namespace SK.Libretro
         private delegate bool retro_midi_flush_t();
 
         // typedef void (RETRO_CALLCONV *retro_proc_address_t)(void);
-        private delegate void retro_proc_address_t();
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void retro_proc_address_t();
         // typedef retro_proc_address_t(RETRO_CALLCONV* retro_get_proc_address_t)(const char* sym);
-        private delegate retro_proc_address_t retro_get_proc_address_t([MarshalAs(UnmanagedType.LPStr)] string sym);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr retro_get_proc_address_t([MarshalAs(UnmanagedType.LPStr)] string sym);
 
         // typedef void (RETRO_CALLCONV *retro_log_printf_t)(enum retro_log_level level, const char* fmt, ...);
         public delegate void retro_log_printf_t(retro_log_level level, [MarshalAs(UnmanagedType.LPStr)] string format, IntPtr args);

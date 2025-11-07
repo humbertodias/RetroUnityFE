@@ -72,6 +72,7 @@ namespace SK.Libretro
         public retro_get_region_t retro_get_region;
         public retro_get_memory_data_t retro_get_memory_data;
         public retro_get_memory_size_t retro_get_memory_size;
+        public retro_get_proc_address_t retro_get_proc_address;
         #endregion
 
         public bool Initialized { get; private set; }
